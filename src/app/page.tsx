@@ -21,7 +21,7 @@ export default function Home() {
             .
           </li>
           <li className="tracking-[-.01em]">
-            Let's build something amazing with nextjs and mongoDB!
+            Let us build something amazing with nextjs and mongoDB!
           </li>
         </ol>
 
