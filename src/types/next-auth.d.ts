@@ -7,13 +7,18 @@ declare module "next-auth" {
     isVerified?: boolean;
     isAcceptingMessage?: boolean;
   }
-    interface Session {
-        user: {
-            _id?: string;
-            username?: string;
-            isVerified?: boolean;
-            isAcceptingMessage?: boolean;
-        }
-    }
-  
+  interface Session {
+    user: {
+      _id?: string;
+      username?: string;
+      isVerified?: boolean;
+      isAcceptingMessage?: boolean;
+    } & DefaultSession["user"];
+  }
+  interface JWT {
+    _id?: string;
+    username?: string;
+    isVerified?: boolean;
+    isAcceptingMessage?: boolean;
+  }
 }
