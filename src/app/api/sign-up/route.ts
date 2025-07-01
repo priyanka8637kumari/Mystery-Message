@@ -1,18 +1,24 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
+//something is missing here, I have to check the imports
 
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
-import { ca } from "zod/v4/locales";
 
 export async function POST(request: Request) {
   await dbConnect();
   try {
     const { email, username, password } = await request.json();
+    
+    console.log("Attempting to register user:", { email, username });
+    
     const existingUserVerifiedByUsername = await UserModel.findOne({
       username,
       isVerified: true,
     });
+    
+    console.log("Existing verified user by username:", existingUserVerifiedByUsername);
+    
     if (existingUserVerifiedByUsername) {
       return Response.json(
         {
@@ -25,6 +31,8 @@ export async function POST(request: Request) {
     const existingUserVerifiedByEmail = await UserModel.findOne({
       email,
     });
+
+    console.log("Existing user by email:", existingUserVerifiedByEmail);
 
     const verifyCode = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit verification code
 
@@ -43,7 +51,8 @@ export async function POST(request: Request) {
         existingUserVerifiedByEmail.password = hashedPassword;
         existingUserVerifiedByEmail.verifyCode = verifyCode;
         existingUserVerifiedByEmail.verifyCodeExpires = new Date(Date.now() + 3600000); // Set expiry to 1 hour from now
-        await existingUserVerifiedByEmail.save();
+        const savedUser = await existingUserVerifiedByEmail.save();
+        console.log("Updated existing user:", savedUser._id);
       }
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -59,7 +68,8 @@ export async function POST(request: Request) {
         isAcceptingMessage: true,
         messages: [],
       });
-      await newUser.save();
+      const savedUser = await newUser.save();
+      console.log("Created new user:", savedUser._id);
     }
     // Send verification email
     const emailResponse = await sendVerificationEmail(
