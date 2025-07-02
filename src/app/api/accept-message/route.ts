@@ -74,7 +74,7 @@ export async function GET(request: Request) {
         );
     }   
 
-    const userId = user.id;
+    const userId = user._id;
 
     try {
         const foundUser = await UserModel.findById(userId);
