@@ -8,16 +8,33 @@ import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { email, username, password } = await request.json();
+    console.log("🚀 Sign-up API called");
     
-    console.log("Attempting to register user:", { email, username });
+    const requestBody = await request.json();
+    console.log("📝 Request body:", requestBody);
+    
+    const { email, username, password } = requestBody;
+    
+    // Validate required fields
+    if (!email || !username || !password) {
+      console.error("❌ Missing required fields:", { email: !!email, username: !!username, password: !!password });
+      return Response.json(
+        {
+          success: false,
+          message: "All fields (email, username, password) are required.",
+        },
+        { status: 400 }
+      );
+    }
+    
+    console.log("✅ Attempting to register user:", { email, username });
     
     const existingUserVerifiedByUsername = await UserModel.findOne({
       username,
       isVerified: true,
     });
     
-    console.log("Existing verified user by username:", existingUserVerifiedByUsername);
+    console.log("🔍 Existing verified user by username:", existingUserVerifiedByUsername);
     
     if (existingUserVerifiedByUsername) {
       return Response.json(

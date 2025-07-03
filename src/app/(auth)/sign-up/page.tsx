@@ -71,17 +71,25 @@ const signUpPage = () => {
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
     try {
+      console.log("Submitting data:", data); // Debug log
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
-      toast.success("Successful", {
+      toast.success("Success!", {
         description: response.data.message,
       });
-      router.replace(`/verify/${username}`);
+      router.push(`/verify/${username}`);
     } catch (error) {
       console.error("Error during sign-up:", error);
       const axiosError = error as AxiosError<ApiResponse>;
+      
+      // More detailed error handling
       if (axiosError.response) {
-        toast.error("Error", {
-          description: axiosError.response.data.message || "Sign-up failed",
+        console.error("Error response:", axiosError.response.data);
+        toast.error("Sign-up Failed", {
+          description: axiosError.response.data.message || "Sign-up failed. Please try again.",
+        });
+      } else {
+        toast.error("Network Error", {
+          description: "Unable to connect to server. Please check your connection.",
         });
       }
     } finally {
@@ -93,9 +101,9 @@ const signUpPage = () => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            Welcome Back to True Feedback
+            Join True Feedback
           </h1>
-          <p className="mb-4">Sign in to continue your secret conversations</p>
+          <p className="mb-4">Sign up to start your anonymous messaging experience</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -170,9 +178,9 @@ const signUpPage = () => {
         </Form>
         <div className="text-center mt-4">
           <p>
-            Not a member yet?{" "}
+            Already a member?{" "}
             <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
-              Sign up
+              Sign in
             </Link>
           </p>
         </div>
