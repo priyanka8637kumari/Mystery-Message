@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         );
     }   
 
-    const userId = user.id;
+    const userId = user._id;
     const { acceptMessages } = await request.json();
 
     try {

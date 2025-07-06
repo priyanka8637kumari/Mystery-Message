@@ -32,7 +32,7 @@ const VerifyAccount = () => {
     try {
       const response = await axios.post(`/api/verify-code`, {
         username: params.username,
-        code: data.code,
+        verifyCode: data.code,
       });
       toast("Verification Successful", {
         description: response.data.message,

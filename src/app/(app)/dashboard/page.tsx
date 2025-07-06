@@ -18,12 +18,17 @@ const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
+  const [baseUrl, setBaseUrl] = useState("");
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((msg) => msg._id !== messageId));
   };
 
   const { data: session } = useSession();
+
+  useEffect(() => {
+    setBaseUrl(`${window.location.protocol}//${window.location.host}`);
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -100,13 +105,13 @@ const Dashboard = () => {
     }
   };
 
-  const { username } = session?.user as User
-
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/u/${username}`;
-
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(profileUrl)
+    if (!session?.user || !baseUrl) return;
+    
+    const user = session.user as User;
+    const profileUrl = `${baseUrl}/u/${user.username}`;
+    
+    navigator.clipboard.writeText(profileUrl);
     toast("Link copied to clipboard", {
       description: "You can now share your unique link.",
     });
@@ -133,7 +138,7 @@ const Dashboard = () => {
         <div className="flex items-center">
           <input
             type="text"
-            value={profileUrl}
+            value={session?.user && baseUrl ? `${baseUrl}/u/${(session.user as User).username}` : ''}
             disabled
             className="input input-bordered w-full p-2 mr-2"
           />

@@ -76,7 +76,7 @@ const signUpPage = () => {
       toast.success("Success!", {
         description: response.data.message,
       });
-      router.push(`/verify/${username}`);
+      router.push(`/verify/${data.username}`);
     } catch (error) {
       console.error("Error during sign-up:", error);
       const axiosError = error as AxiosError<ApiResponse>;
