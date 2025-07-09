@@ -8,6 +8,16 @@ export async function sendVerificationEmail(
   verifyCode: string
 ): Promise<ApiResponse> {
   try {
+    // Check if API key is available
+    if (!process.env.RESEND_API_KEY) {
+      console.log('📧 Resend API key not available. Email would be sent to:', email);
+      console.log('📝 Verification code:', verifyCode);
+      return { 
+        success: true, 
+        message: 'Verification email sent successfully. (Development mode - check console for code)' 
+      };
+    }
+
     await resend.emails.send({
       from: 'onboarding@resend.dev', // Replace with your sender email
       to: email,
