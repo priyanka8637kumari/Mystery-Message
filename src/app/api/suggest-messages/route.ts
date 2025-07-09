@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
-export async function POST(req: Request) {
+export async function POST() {
   try {
     console.log("🚀 Starting suggest-messages API call");
     
@@ -43,13 +43,14 @@ export async function POST(req: Request) {
 
     // Handle different types of errors
     if (error && typeof error === "object" && "status" in error) {
+      const apiError = error as { status?: number; message?: string };
       return NextResponse.json(
         {
           success: false,
           message: "OpenAI API error occurred.",
-          error: (error as any).message || "Unknown API error",
+          error: apiError.message || "Unknown API error",
         },
-        { status: (error as any).status || 500 }
+        { status: apiError.status || 500 }
       );
     } else {
       return NextResponse.json(

@@ -2,10 +2,7 @@
 import React from "react";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+  CardContent
 } from "@/components/ui/card";
 import {
   AlertDialog,
@@ -33,7 +30,7 @@ type MessageCardProps = {
 const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
   const handleDeleteConfirm = async () => {
     try {
-      const response = await axios.delete<ApiResponse>(
+      await axios.delete<ApiResponse>(
         `/api/delete-message/${message._id}`
       );
       toast.success("Message deleted successfully");

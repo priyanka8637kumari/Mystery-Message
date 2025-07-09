@@ -4,8 +4,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import messages from "@/messages.json";
 import Autoplay from "embla-carousel-autoplay";
@@ -14,16 +12,16 @@ import { Mail } from "lucide-react";
 export default function Home() {
   return (
     <>
-    <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-gray-800 text-white">
-      <section className="text-center mb-8 md:mb-12">
-        <h1 className="text-3xl md:text-5xl font-bold">
-          Dive into the World of Anonymous Feedback
-        </h1>
-        <p className="mt-3 md:mt-4 text-base md:text-lg">
-          True Feedback - Where your identity remains a secret.
-        </p>
-      </section>
-      <Carousel
+      <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-gray-800 text-white">
+        <section className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-5xl font-bold">
+            A safe place to speak your mind - no names, just words
+          </h1>
+          <p className="mt-3 md:mt-4 text-base md:text-lg">
+            True Feedback - Where your identity remains a secret.
+          </p>
+        </section>
+        <Carousel
           plugins={[Autoplay({ delay: 2000 })]}
           className="w-full max-w-lg md:max-w-xl"
         >
@@ -48,10 +46,10 @@ export default function Home() {
             ))}
           </CarouselContent>
         </Carousel>
-    </main>
+      </main>
       <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-        &copy; {new Date().getFullYear()} True Feedback. All rights reserved.
+        &copy; {new Date().getFullYear()} Anonymous Inbox. All rights reserved.
       </footer>
-</>
+    </>
   );
 }

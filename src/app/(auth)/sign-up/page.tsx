@@ -14,7 +14,6 @@ import { ApiResponse } from "@/types/ApiResponse";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 
-const signUpPage = () => {
+const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -189,4 +188,4 @@ const signUpPage = () => {
   );
 };
 
-export default signUpPage;
+export default SignUpPage;

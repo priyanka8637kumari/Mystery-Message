@@ -12,7 +12,7 @@ import * as z from 'zod'
 import { signIn } from 'next-auth/react';
 
 
-const signInPage = () => {
+const SignInPage = () => {
   
   const router = useRouter()
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -84,7 +84,7 @@ const signInPage = () => {
         </Form>
         <div>
           <p className="text-sm text-gray-600 mt-4">
-            Don't have an account? <a href="/sign-up" className="text-blue-500 hover:underline">Sign Up</a>
+            Don&apos;t have an account? <a href="/sign-up" className="text-blue-500 hover:underline">Sign Up</a>
           </p>
         </div>
       </div>
@@ -93,4 +93,4 @@ const signInPage = () => {
   )
 }
 
-export default signInPage
+export default SignInPage

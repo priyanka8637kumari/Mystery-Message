@@ -14,8 +14,11 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(credentials: Record<string, string> | undefined): Promise<any> {
         await dbConnect();
+        if (!credentials?.identifier || !credentials?.password) {
+          throw new Error("Missing credentials");
+        }
         try {
           const user = await UserModel.findOne({
             $or: [
@@ -38,8 +41,11 @@ export const authOptions: NextAuthOptions = {
           } else {
             throw new Error("Incorrect password");
           }
-        } catch (error: any) {
-          throw new Error("Authorization failed", error);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          }
+          throw new Error("Authorization failed");
         }
       },
     }),
