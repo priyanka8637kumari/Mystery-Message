@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,11 +29,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen overflow-hidden`}
       >
         <AuthProvider>
-          <Navbar />
-          {children}
+          <div className="h-full flex flex-col">
+            <Navbar />
+            <div className="flex-1 overflow-auto">
+              {children}
+            </div>
+            <Footer />
+          </div>
           <Toaster />
         </AuthProvider>
       </body>
