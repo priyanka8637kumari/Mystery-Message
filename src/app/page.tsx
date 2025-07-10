@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 export default function Home() {
-  return <h1>Hello from the homepage!</h1>;
+  redirect('src/app/(app)/page.tsx'); // Redirect to the app route
 }
